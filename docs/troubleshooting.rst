@@ -17,6 +17,11 @@ Often, especially if you're on Windows, voice will not work out of the box.
 Follow the steps below, one by one.
 
 
+- Is your system supported? The following are:
+    - Linux x64 & ia32
+    - Linux ARM (Raspberry Pi 1 & 2)
+    - Mac OS X x64
+    - Windows x64
 - Did you install Python 2.7.x correctly? Is it in your PATH? ``python -V``. If not, install it correctly and try reinstalling.
     - **Windows** - See https://python.org/downloads/
     - **Linux / Mac OS** - Unix systems should already have it installed, but if not, use the OS's package manager
