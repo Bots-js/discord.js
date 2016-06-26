@@ -24,7 +24,7 @@ Follow the steps below, one by one.
     - **Windows** - `Follow this guide`_
     - **Linux / Mac OS** - Use your OS's package manager
 - Did you install the required C++ compiler tool for your OS? If not, install the corresponding program, **then** try reinstalling discord.js ``npm i -S discord.js``
-    - **Windows** - `Visual Studio 2015`_ with **`C++ Support enabled`_**
+    - **Windows** - `Visual Studio 2015`_ with `C++ Support enabled`_
     - **Linux** - build-essential
     - **Mac OS** - Xcode CLI tools
 
