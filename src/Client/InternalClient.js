@@ -308,7 +308,7 @@ export default class InternalClient {
 						"self_deaf": false
 					}
 				});
-			}
+			};
 
 			var joinVoice = () => {
 				return new Promise((resolve, reject) => {
@@ -325,17 +325,19 @@ export default class InternalClient {
 
 							var chan = new ApolloConnection( this.apollo, {
 								channelId: channel.id,
-								sessionId: session.id,
+								sessionId: session,
 								guildId: server.id,
 								userId: this.client.user.id,
-								endpoint: endpoint
+								endpoint: endpoint,
+								token: token,
 							});
 
 							this.voiceConnections.add(chan);
 
-							chan.on("ready", () => resolve(chan));
-							chan.on("error", reject);
-							chan.on("close", reject);
+							resolve(chan)
+							//TODO: make it so we can fail.
+							//chan.on("error", reject);
+							//chan.on("close", reject);
 
 							if (timeout) {
 								clearTimeout(timeout);
