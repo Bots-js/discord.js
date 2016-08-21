@@ -27,7 +27,8 @@
   "dependencies": {
     "superagent": "^2.1.0",
     "unpipe": "^1.0.0",
-    "ws": "^1.1.1"
+    "ws": "^1.1.1",
+    "node-apollo": "Da-Vinci/node-apollo"
   },
   "devDependencies": {
     "colors": "^1.1.2",
