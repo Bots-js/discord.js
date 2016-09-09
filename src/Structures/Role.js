@@ -47,6 +47,17 @@ export default class Role {
 		return new Date((+this.id / 4194304) + 1420070400000);
 	}
 
+	toObject() {
+		let keys = ['id', 'position', 'permissions', 'name', 'managed', 'hoist', 'color', 'mentionable'],
+			obj = {};
+
+		for (let k of keys) {
+			obj[k] = this[k];
+		}
+		
+		return obj;
+	}
+
 	serialise(explicit){
 
 		var hp = (perm) => this.hasPermission(perm, explicit);
@@ -59,6 +70,7 @@ export default class Role {
 			manageRoles : hp ( Permissions.manageRoles ),
 			manageChannels : hp( Permissions.manageChannels ),
 			manageServer : hp( Permissions.manageServer ),
+			administrator: hp( Permissions.administrator ),
 			// text
 			readMessages : hp( Permissions.readMessages ),
 			sendMessages : hp( Permissions.sendMessages ),
@@ -91,7 +103,7 @@ export default class Role {
 			return false;
 		}
 		if(!explicit){ // implicit permissions allowed
-			if( !!(this.permissions & Permissions.manageRoles) ){
+			if( !!(this.permissions & Permissions.administrator) ){
 				// manageRoles allowed, they have all permissions
 				return true;
 			}

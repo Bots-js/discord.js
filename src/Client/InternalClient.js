@@ -107,7 +107,7 @@ export default class InternalClient {
 			ret.set('User-Agent', self.userAgentInfo.full);
 			ret.end((error, data) => {
 				if (error) {
-					if(data.status === 429) {
+					if (data && data.status === 429) {
 						self.client.emit("debug", "Encountered 429 at " + url + " | " + self.client.options.shard + " | Buckets" + buckets + " | " + (Date.now() - startTime) + "ms latency");
 					}
 					reject(error);
@@ -171,6 +171,7 @@ export default class InternalClient {
             "bot:msg:dm": new Bucket(5, 5000),
             "bot:msg:global": new Bucket(50, 10000),
             "msg": new Bucket(10, 10000),
+            "dmsg:undefined": new Bucket(5, 1000),
             "username": new Bucket(2, 3600000)
         };
 
@@ -520,10 +521,12 @@ export default class InternalClient {
 		this.email = email;
 		this.password = password;
 
+		var self = this;
 		return this.getGateway()
 		.then(url => {
-			this.createWS(url);
-			return token;
+			self.token = self.client.options.bot && !self.token.startsWith("Bot ") ? `Bot ${self.token}` : self.token;
+			self.createWS(url);
+			return self.token;
 		});
 	}
 
@@ -655,7 +658,8 @@ export default class InternalClient {
 				.then(file =>
 					this.apiRequest("post", Endpoints.CHANNEL_MESSAGES(destination.id), true, {
 						content: content,
-						tts: options.tts
+						tts: options.tts,
+						nonce: options.nonce
 					}, {
 						name: options.file.name,
 						file: file
@@ -664,7 +668,8 @@ export default class InternalClient {
 			} else {
 				return this.apiRequest("post", Endpoints.CHANNEL_MESSAGES(destination.id), true, {
 					content: content,
-					tts: options.tts
+					tts: options.tts,
+					nonce: options.nonce
 				})
 				.then(res => destination.messages.add(new Message(res, destination, this.client)));
 			}
@@ -1149,11 +1154,11 @@ export default class InternalClient {
 		if (roledata) {
 			for (var r of roledata) {
 				if (r.id == role.id) {
-					return r;
+					return true;
 				}
 			}
 		}
-		return null;
+		return false;
 	}
 
 	//def removeMemberFromRole

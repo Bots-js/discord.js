@@ -45,8 +45,8 @@ export default class Client extends EventEmitter {
 		 * @type {ClientOptions}
 		 */
 		this.options = options || {};
-		this.options.compress = options.compress || (!process.browser);
-		this.options.autoReconnect = options.autoReconnect || true;
+		this.options.compress = options.compress === undefined ? !process.browser : options.compress;
+		this.options.autoReconnect = options.autoReconnect === undefined ? true : options.autoReconnect;
 		this.options.rateLimitAsError = options.rateLimitAsError || false;
 		this.options.largeThreshold = options.largeThreshold || 250;
 		this.options.maxCachedMessages = options.maxCachedMessages || 1000;
@@ -54,6 +54,7 @@ export default class Client extends EventEmitter {
 		this.options.shardId = options.shardId || 0;
 		this.options.shardCount = options.shardCount || 0;
 		this.options.disableEveryone = options.disableEveryone || false;
+		this.options.bot = options.bot === undefined || options.bot === true ? true : false;
 
 		if (typeof options.shardCount === "number" && typeof options.shardId === "number" && options.shardCount > 0) {
 			this.options.shard = [options.shardId, options.shardCount];
